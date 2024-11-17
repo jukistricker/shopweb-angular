@@ -20,6 +20,6 @@ export class AppComponent {
   title = 'shopweb-angular';
 }
 
-export { OrderComponent };
-// bootstrap: [OrderComponent]
+// export { OrderComponent };
+// // bootstrap: [OrderComponent]
 
