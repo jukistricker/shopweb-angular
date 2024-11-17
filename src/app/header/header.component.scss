@@ -21,3 +21,28 @@
               background-color: rgb(127, 68, 255) !important;
               color: white !important;
           }
+
+          .navbar-brand {
+            display: inline-block;
+            height: 60px; /* Tùy chỉnh chiều cao của logo */
+            width: auto; /* Đảm bảo logo giữ đúng tỷ lệ */
+          }
+          
+          .navbar-brand img {
+            height: 100%;
+            width: auto;
+            object-fit: contain; /* Giữ tỷ lệ mà không bị cắt */
+            display: block; /* Loại bỏ khoảng trắng mặc định của hình ảnh */
+          }
+          
+          .navbar-brand:hover img {
+            transform: scale(1.1); /* Tăng kích thước khi hover để tạo hiệu ứng */
+            transition: transform 0.3s ease; /* Hiệu ứng chuyển động mượt mà */
+          }
+          
+          .navbar-brand svg {
+            height: 100%;
+            width: auto;
+            fill: currentColor; /* Cho phép đổi màu dựa trên text color nếu cần */
+          }
+          
