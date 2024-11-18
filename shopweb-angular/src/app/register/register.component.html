@@ -1,0 +1,52 @@
+<app-header></app-header>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="register-form mx-auto">
+                <h2 class="register-header">Đăng ký</h2>
+                <div class="form-group">
+                    <label for="name">Họ và tên</label>
+                    <input type="text" class="form-control" id="name" placeholder="Nhập họ và tên">
+                    <div class="divider-nospace"></div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Nhập email">
+                    <div class="divider-nospace"></div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" class="form-control" id="password" placeholder="Ít nhất 6 kí tự">
+                    <div class="divider-nospace"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Xác nhận mật khẩu</label>
+                    <input type="password" class="form-control" id="confirm-password" placeholder="Nhập lại mật khẩu">
+                    <div class="divider-nospace"></div>
+                </div>
+                <div class="form-group">
+                    <select class="form-control access-right">
+                        <option selected disabled>Chọn quyền truy cập</option>
+                        <option>Người dùng</option>
+                        <option>Quản trị viên</option>
+                    </select>
+                </div>
+                <!-- Thêm phần điều khoản -->
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="terms">
+                        <label class="form-check-label" for="terms">
+                            Tôi đồng ý với các <a href="/terms-and-conditions" target="_blank">điều khoản và điều kiện</a>.
+                        </label>
+                    </div>
+                </div>
+                <button type="button" class="register-button" id="register-btn" disabled>Đăng ký</button>
+                <div class="divider"></div>
+                <p class="text-center">Bạn đã có tài khoản?
+                    <span><a href="#" class="login-link">Đăng nhập</a></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
