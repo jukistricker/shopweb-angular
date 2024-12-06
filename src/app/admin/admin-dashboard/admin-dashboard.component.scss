@@ -1,0 +1,44 @@
+@import '../../../assets/styles/variables';
+
+.dashboard {
+  padding: 20px;
+
+  .dashboard-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .stat-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 24%;
+      text-align: center;
+
+      h3 {
+        font-size: 1.2rem;
+        color: $primary-color;
+      }
+
+      p {
+        font-size: 1.5rem;
+        color: $text-color;
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .charts {
+    display: flex;
+    justify-content: space-between;
+
+    .chart {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 48%;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  }
+}

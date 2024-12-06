@@ -1,0 +1,12 @@
+<app-admin-navbar (toggle)="toggleSidebar()"></app-admin-navbar>
+
+<div class="admin-layout">
+  <app-admin-sidebar [isSidebarOpen]="isSidebarOpen"></app-admin-sidebar>
+
+  <div class="admin-content" [ngClass]="{'sidebar-open': isSidebarOpen}">
+    <h2>Admin Dashboard</h2>
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<app-admin-footer></app-admin-footer>

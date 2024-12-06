@@ -1,0 +1,59 @@
+@import '../../../assets/styles/variables';
+
+.sidebar {
+  width: 250px;
+  background-color: $secondary-color;
+  padding: 20px;
+  height: 100vh;
+  position: fixed;
+  top: 60px;
+  left: -250px;
+  transition: left 0.3s ease;
+  z-index: 1000;
+}
+
+.sidebar-open {
+  left: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: block;
+  border-radius: 4px;
+  font-size: 18px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.sidebar a:hover {
+  background-color: darken($secondary-color, 10%);
+  transform: scale(1.05);
+}
+
+.sidebar ul ul {
+  list-style: none;
+  padding-left: 15px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  background-color: darken($secondary-color, 5%);
+}
+
+.sidebar ul ul.dropdown-open {
+  max-height: 200px;
+}
+
+.sidebar ul ul li {
+  margin: 5px 0;
+}

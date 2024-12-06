@@ -1,0 +1,61 @@
+<!-- src/app/components/category/category.component.html -->
+<form (ngSubmit)="addCategory()">
+  <input
+    type="text"
+    [(ngModel)]="category.cate_name"
+    name="cate_name"
+    placeholder="Category Name"
+    required
+  />
+  <input
+    type="text"
+    [(ngModel)]="category.description"
+    name="description"
+    placeholder="Description"
+    required
+  />
+  <button type="submit">Add Category</button>
+</form>
+
+<div *ngIf="category.isEditing">
+  <h2>Edit Category</h2>
+  <form (ngSubmit)="onUpdateCategory()">
+    <div>
+      <label for="cate_name">Category Name:</label>
+      <input type="text" id="cate_name" [(ngModel)]="category.cate_name" name="cate_name" required />
+    </div>
+    <div>
+      <label for="description">Description:</label>
+      <input type="text" id="description" [(ngModel)]="category.description" name="description" required />
+    </div>
+    <button type="submit" [disabled]="category.isUpdating">Update</button>
+  </form>
+</div>
+
+<!-- Hiển thị thông tin category khi không ở chế độ chỉnh sửa -->
+<div *ngIf="!category.isEditing">
+  <table>
+    <thead>
+    <h2>Category Details</h2>
+    </thead>
+    <tbody>
+    <tr *ngFor="let category of categories; let i = index">
+      <td>
+        {{category.id}}
+      </td>
+      <td>
+        <input [ngModel]="category.cate_name" [disabled]="!category.isUpdating && !category.isEditing" >
+      </td>
+      <td>
+        <input [ngModel]="category.description" [disabled]="!category.isUpdating && !category.isEditing" >
+      </td>
+      <td>
+        <button (click)="onEditCategory(category)">Edit</button>
+      </td>
+      <td>
+        <button (click)="deleteCategory(category.id)" *ngIf="!category.isEditing&&!category.isUpdating">Delete</button>
+      </td>
+
+    </tbody>
+  </table>
+</div>

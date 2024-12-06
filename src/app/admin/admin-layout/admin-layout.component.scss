@@ -1,0 +1,39 @@
+@import '../../../assets/styles/variables';
+
+// Only styles for admin layout
+.admin-layout {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: $bg-color;
+    color: $text-color;
+  }
+
+  .admin-navbar {
+    background-color: $primary-color;
+  }
+
+  .dashboard {
+    .stat-card {
+      background-color: $card-bg;
+    }
+  }
+
+  .admin-content {
+    padding: 20px;
+    background-color: $bg-color;
+    margin-top: 60px;
+    transition: margin-left 0.3s ease;
+  }
+
+  .sidebar-open {
+    margin-left: 250px;
+  }
+}
+
+

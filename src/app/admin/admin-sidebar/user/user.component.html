@@ -1,0 +1,81 @@
+<div>
+  <input
+    type="number"
+    [(ngModel)]="userId"
+    placeholder="Enter user ID"
+    style="margin-right: 8px;"
+  />
+  <button (click)="searchUser()">Search</button>
+</div>
+
+<table>
+  <thead>
+  <tr>
+    <td>ID</td>
+    <td>Username</td>
+    <td>Fullname</td>
+    <td>Email</td>
+    <td>Password</td>
+    <td>Role</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let user of users; let i = index">
+    <td>{{user.id}}</td>
+    <td><input [ngModel]="user.username" [disabled]="!user.isUpdating && !user.isEditing"></td>
+    <td><input [ngModel]="user.fullname" [disabled]="!user.isUpdating && !user.isEditing"></td>
+    <td><input [ngModel]="user.email" [disabled]="!user.isUpdating && !user.isEditing"></td>
+    <td><input [ngModel]="user.password" [disabled]="!user.isUpdating && !user.isEditing"></td>
+    <td><input [ngModel]="user.role"[disabled]="!user.isUpdating && !user.isEditing" ></td>
+    <td>
+      <button (click)="editUser(user)">Edit</button>
+    </td>
+
+  </tr>
+  </tbody>
+</table>
+
+<!-- Hiển thị thông tin user tìm thấy -->
+<div *ngIf="user">
+  <h3>Search Result:</h3>
+  <p><b>ID:</b> {{user.id}}</p>
+  <p><b>Username:</b> {{user.username}}</p>
+  <p><b>Fullname:</b> {{user.fullname}}</p>
+  <p><b>Email:</b> {{user.email}}</p>
+  <p><b>Password:</b> {{user.password}}</p>
+  <p><b>Role:</b> {{user.role}}</p>
+</div>
+
+
+<div *ngIf="selectedUser">
+  <h2>Edit User</h2>
+  <form (ngSubmit)="updateUser()">
+    <div>
+      <label for="username">Username:</label>
+      <input type="text" id="username" [(ngModel)]="selectedUser.username" name="username" required />
+    </div>
+    <div>
+      <label for="fullname">Fullname:</label>
+      <input type="text" id="fullname" [(ngModel)]="selectedUser.fullname" name="fullname" />
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" [(ngModel)]="selectedUser.email" name="email" required />
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" [(ngModel)]="selectedUser.password" name="password" />
+    </div>
+    <div>
+      <label for="role">Role:</label>
+      <select id="role" [(ngModel)]="selectedUser.role" name="role">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+        <option value="seller">Seller</option>
+      </select>
+    </div>
+    <button type="submit" [disabled]="!selectedUser.isEditing">Update</button>
+  </form>
+</div>
+
+
