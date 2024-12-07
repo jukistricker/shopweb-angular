@@ -41,10 +41,11 @@
 .product-item {
   position: relative;
   background-color: rgb(255, 255, 255);
-  border: 1px solid rgb(35, 39, 61);
+  border: transparent;
   border-radius: 20px;
   height: 300px;
   overflow: hidden;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 
   .product-image {
     padding:0%;
@@ -60,42 +61,40 @@
   .product-quantity,
   .product-price
    {
-    padding: 5px;
+    margin: 0;
+    margin-left: 5px;
+    padding: 0;
 
   }
   .product-rating{
+    margin-left: 5px;
     color: yellow;
   }
 }
 .flex-row {
   display: flex;
   flex-direction: row;
-  align-items: center; /* Căn giữa theo trục dọc */
-  gap: 10px; /* Khoảng cách giữa rating và quantity */
+  align-items: center;
+  gap: 10px;
 }
 
 .product-rating {
-  flex: 1; /* Chiếm phần lớn không gian còn lại */
+  flex: 1;
   display: flex;
-  align-items: center; /* Căn giữa nội dung bên trong */
+  align-items: center;
 
 }
 
 .product-quantity {
-  flex-shrink: 0; /* Ngăn không cho phần tử bị co */
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  white-space: nowrap; /* Đảm bảo không xuống dòng */
+  white-space: nowrap;
 }
 
 .product-quantity p {
-  margin: 0; /* Loại bỏ margin thừa */
+  margin: 0;
 }
-
-
-
-
-
 
 .product-actions {
   display: flex;
