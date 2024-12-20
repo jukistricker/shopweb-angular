@@ -1,5 +1,6 @@
 
 <app-header></app-header>
+
 <div class="container">
   <div class="intro-section">
     <img src="assets/images/bamboo.png" width="250" height="50">
@@ -7,185 +8,46 @@
 
   <div class="row">
     <div class="search-box d-flex">
-      <select class="product-category">
+      <select class="product-category" (change)="onCategoryChange($event)">
         <option selected disabled>Category</option>
-        <option value="">Đồ điện tử</option>
-        <option value="">Đồ gia dụng</option>
-        <option value="">Bánh kẹo</option>
+        <option *ngFor="let category of categories" [value]="category.id" (click)="searchByCate(category.id)">{{ category.cate_name }}</option>
       </select>
       <input type="text" class="search-input" placeholder="Tìm sản phẩm">
-
     </div>
+
   </div>
   <div class="row">
-    <div class="col-lg-2 col-md-4 col-6">
-      <div class="product-item">
-        <img ngSrc="https://cdn.shopify.com/s/files/1/0559/3713/8775/files/Durable_Chews.jpg?v=1725681866&width=512"
-             alt="Product Image" width="100" height="100"
-             class="product-image">
-        <h3 class="product-name">Product 1</h3>
-        <p class="product-price">Giá: <del>$200</del> $100</p>
-        <div class="flex flex-row items-center">
-          <div class="product-rating col-10">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
 
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngFor="let product of products">
+      <a [routerLink]="['/product', product.id]" class="text-decoration-none">
+      <div class="product-item card shadow-sm mb-4">
+        <img
+          [ngSrc]="'https://cdn.shopify.com/s/files/1/0559/3713/8775/files/Durable_Chews.jpg?v=1725681866&width=512'"
+          alt="Product Image" width="100" height="100"
+          class="product-image"
+        /> <!--product.featuredImageUrl ||-->
+        <div class="card-body">
+          <h5 class="product-name card-title text-truncate">{{ product.productName }}</h5>
+          <div class="product-price card-text">
+            <h4>
+            <p *ngIf="product.sale"><span class="text-danger"><b>{{product.salePrice | currency}} </b> </span> <del> {{ product.price | currency }}</del></p>
+            <span *ngIf="!product.sale"> {{ product.price | currency }}</span></h4>
           </div>
-          <div class="product-quantity col-10">
-            <p>(34)</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="product-rating">
+              <i class="fas fa-star" >{{product.rating}}</i>
+            </div>
           </div>
-        </div>
-        <div class="product-actions">
-          <button class="btn btn-primary">Add to cart</button>
-          <span class="space-x"></span>
-          <button class="btn btn-dark">Buy</button>
-
+          <p class="purchase-count">{{product.purchaseCount}} sold</p>
         </div>
       </div>
+      </a>
     </div>
-    <div class="col-lg-2 col-md-4 col-6">
-      <div class="product-item">
-        <img ngSrc="https://cdn.shopify.com/s/files/1/0559/3713/8775/files/Durable_Chews.jpg?v=1725681866&width=512"
-             alt="Product Image" width="100" height="100"
-             class="product-image">
-        <h3 class="product-name">Product 1</h3>
-        <p class="product-price">Giá: <del>$200</del> $100</p>
-        <div class="flex flex-row items-center">
-          <div class="product-rating col-10">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-
-          </div>
-          <div class="product-quantity col-10">
-            <p>(34)</p>
-          </div>
-        </div>
-        <div class="product-actions">
-          <button class="btn btn-primary">Add to cart</button>
-          <span class="space-x"></span>
-          <button class="btn btn-dark">Buy</button>
-
-        </div>
-      </div>
+    <div *ngIf="products.length<1">
+      <p>No Product Found</p>
     </div>
-    <div class="col-lg-2 col-md-4 col-6">
-      <div class="product-item">
-        <img ngSrc="https://cdn.shopify.com/s/files/1/0559/3713/8775/files/Durable_Chews.jpg?v=1725681866&width=512"
-             alt="Product Image" width="100" height="100"
-             class="product-image">
-        <h3 class="product-name">Product 1</h3>
-        <p class="product-price">Giá: <del>$200</del> $100</p>
-        <div class="flex flex-row items-center">
-          <div class="product-rating col-10">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
 
-          </div>
-          <div class="product-quantity col-10">
-            <p>(34)</p>
-          </div>
-        </div>
-        <div class="product-actions">
-          <button class="btn btn-primary">Add to cart</button>
-          <span class="space-x"></span>
-          <button class="btn btn-dark">Buy</button>
-
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-4 col-6">
-      <div class="product-item">
-        <img ngSrc="https://cdn.shopify.com/s/files/1/0559/3713/8775/files/Durable_Chews.jpg?v=1725681866&width=512"
-             alt="Product Image" width="100" height="100"
-             class="product-image">
-        <h3 class="product-name">Product 1</h3>
-        <p class="product-price">Giá: <del>$200</del> $100</p>
-        <div class="flex flex-row items-center">
-          <div class="product-rating col-10">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-
-          </div>
-          <div class="product-quantity col-10">
-            <p>(34)</p>
-          </div>
-        </div>
-        <div class="product-actions">
-          <button class="btn btn-primary">Add to cart</button>
-          <span class="space-x"></span>
-          <button class="btn btn-dark">Buy</button>
-
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-4 col-6">
-      <div class="product-item">
-        <img ngSrc="https://cdn.shopify.com/s/files/1/0559/3713/8775/files/Durable_Chews.jpg?v=1725681866&width=512"
-             alt="Product Image" width="100" height="100"
-             class="product-image">
-        <h3 class="product-name">Product 1</h3>
-        <p class="product-price">Giá: <del>$200</del> $100</p>
-        <div class="flex flex-row items-center">
-          <div class="product-rating col-10">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-
-          </div>
-          <div class="product-quantity col-10">
-            <p>(34)</p>
-          </div>
-        </div>
-        <div class="product-actions">
-          <button class="btn btn-primary">Add to cart</button>
-          <span class="space-x"></span>
-          <button class="btn btn-dark">Buy</button>
-
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-2 col-md-4 col-6">
-      <div class="product-item">
-        <img ngSrc="https://cdn.shopify.com/s/files/1/0559/3713/8775/files/Durable_Chews.jpg?v=1725681866&width=512"
-             alt="Product Image" width="100" height="100"
-             class="product-image">
-        <h3 class="product-name">Product 1</h3>
-        <p class="product-price">Giá: <del>$200</del> $100</p>
-        <div class="flex flex-row items-center">
-          <div class="product-rating col-10">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-
-          </div>
-          <div class="product-quantity col-10">
-            <p>(34)</p>
-          </div>
-        </div>
-        <div class="product-actions">
-          <button class="btn btn-primary">Add to cart</button>
-          <span class="space-x"></span>
-          <button class="btn btn-dark">Buy</button>
-
-        </div>
-      </div>
-    </div>
   </div>
 </div>
+<router-outlet></router-outlet>
 <app-footer></app-footer>

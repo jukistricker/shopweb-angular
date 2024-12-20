@@ -1,1 +1,139 @@
-<p>product works!</p>
+<div class="product-container">
+  <h1>Product Management</h1>
+
+  <!-- Add New Product -->
+  <button (click)="addProduct()" class="btn btn-primary">Add Product</button>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Product Name</th>
+      <th>Category</th>
+      <th>User</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Image URL</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of products; let i = index">
+      <td>{{ i + 1 }}</td>
+
+      <!-- Editable fields -->
+      <td>
+        <input
+          *ngIf="product.isEditing"
+          type="text"
+          [(ngModel)]="product.productName"
+          placeholder="Product Name"
+        />
+        <span *ngIf="!product.isEditing">{{ product.productName }}</span>
+      </td>
+
+      <td>
+        <select
+          *ngIf="product.isEditing"
+          [(ngModel)]="product.category"
+        >
+          <option *ngFor="let category of categories" [ngValue]="category">
+            {{ category.cate_name }}
+          </option>
+        </select>
+        <span *ngIf="!product.isEditing">{{ product.category.cate_name }}</span>
+      </td>
+
+      <td>
+        <select
+          *ngIf="product.isEditing"
+          [(ngModel)]="product.user"
+        >
+          <option *ngFor="let user of users" [ngValue]="user">
+            {{ user.username }}
+          </option>
+        </select>
+        <span *ngIf="!product.isEditing">{{ product.user.username }}</span>
+      </td>
+
+      <td>
+          <textarea
+            *ngIf="product.isEditing"
+            [(ngModel)]="product.description"
+            placeholder="Description"
+          ></textarea>
+        <span *ngIf="!product.isEditing">{{ product.description }}</span>
+      </td>
+
+      <td>
+        <input
+          *ngIf="product.isEditing"
+          type="number"
+          [(ngModel)]="product.price"
+          placeholder="Price"
+        />
+        <span *ngIf="!product.isEditing">{{ product.price | currency }}</span>
+      </td>
+
+      <td>
+        <input
+          *ngIf="product.isEditing"
+          type="number"
+          [(ngModel)]="product.quantity"
+          placeholder="Quantity"
+        />
+        <span *ngIf="!product.isEditing">{{ product.quantity }}</span>
+      </td>
+
+      <td>
+        <input
+          *ngIf="product.isEditing"
+          type="text"
+          [(ngModel)]="product.featuredImageUrl"
+          placeholder="Image URL"
+        />
+        <span *ngIf="!product.isEditing">{{ product.featuredImageUrl }}</span>
+      </td>
+
+      <!-- Action buttons -->
+      <td>
+        <button
+          *ngIf="!product.isEditing"
+          (click)="updateProduct(i)"
+          class="btn btn-warning btn-sm"
+        >
+          Edit
+        </button>
+        <button
+          *ngIf="product.isEditing&&!product.isUpdating"
+          (click)="createProduct(i)"
+          class="btn btn-primary"
+        >
+          Create
+        </button>
+        <button
+          *ngIf="product.isEditing&&product.isUpdating"
+          (click)="saveProduct(i)"
+          class="btn btn-success btn-sm"
+        >
+          Save
+        </button>
+        <button
+          *ngIf="product.isEditing"
+          (click)="product.isEditing = false"
+          class="btn btn-secondary btn-sm"
+        >
+          Cancel
+        </button>
+        <button
+          (click)="deleteProduct(i)"
+          class="btn btn-danger btn-sm"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

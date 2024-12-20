@@ -1,23 +1,41 @@
+/* Đảm bảo navbar có màu nền đúng */
+.navbar {
+  background-color: white !important;
+}
 
-          .navbar {
-              background-color: white !important;
-          }
+/* Container navbar có nền trong suốt */
+.navbar .container {
+  background-color: rgba(0, 0, 0, 0) !important;
+}
 
-          .navbar .container {
-              background-color: rgb(0, 0, 0, 0) !important;
-          }
+/* Màu sắc của thương hiệu (logo) */
+.navbar .container .navbar-brand {
+  color: rgb(173, 178, 203);
+}
 
-          .navbar .container .navbar-brand {
-              color: rgb(173, 178, 203);
-          }
+/* Màu sắc các liên kết trong navbar */
+.navbar .container .navbar-nav .nav-link {
+  color: rgb(173, 178, 203);
+  border-radius: 8px;
+  padding: 8px 16px;
+  transition: color 0.3s ease, background-color 0.3s ease; /* Thêm hiệu ứng chuyển màu nền */
+  margin-right:5px;
+}
 
-          .navbar .container .navbar-nav .nav-link {
-              color: rgb(173, 178, 203);
-              border-radius: 18px;
-              padding: 8px 16px;
-          }
+/* Màu sắc của liên kết khi nó là phần tử đang active */
+.navbar .container .navbar-nav .nav-link.active {
+  background-color: rgb(127, 68, 255) !important;
+  color: white !important;
+}
 
-          .navbar .container .navbar-nav .nav-link.active {
-              background-color: rgb(127, 68, 255) !important;
-              color: white !important;
-          }
+/* Hiệu ứng hover và focus cho các liên kết trong navbar */
+.navbar .navbar-nav .nav-link:hover {
+  color: #bbcee3; /* Thay đổi màu chữ khi di chuột qua */
+  background-color: rgba(0, 0, 0, 0.1); /* Thêm hiệu ứng màu nền mờ khi hover */
+}
+
+/* Đảm bảo màu sắc thay đổi khi phần tử có focus */
+.navbar .navbar-nav .nav-link:focus {
+  color: #bbcee3;
+  background-color: rgba(0, 0, 0, 0.1);
+}

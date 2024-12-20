@@ -1,0 +1,42 @@
+<div class="variant-attribute-container">
+
+  <!-- Hiển thị lỗi -->
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+  <!-- Form thêm mới -->
+  <div class="add-attribute"
+       *ngIf="productVariant.product.user.id==currentUserId">
+    <input
+      type="text"
+      [(ngModel)]="newAttributeName"
+      placeholder="Enter new attribute name"
+    />
+    <button (click)="addAttribute()">Add Attribute</button>
+  </div>
+
+  <!-- Hiển thị danh sách attributes -->
+  <div *ngIf="variantAttributes.length > 0; else noAttributes">
+    <div class="attributes-list">
+      <div
+        *ngFor="let attribute of variantAttributes"
+        class="attribute-item"
+        (click)="selectAttribute(attribute)"
+        [class.selected]="selectedAttribute === attribute"
+      >
+        <span>{{ attribute.attName }}</span>
+        <button (click)="updateAttribute(attribute)" *ngIf="productVariant.product.user.id==currentUserId">Update</button>
+        <button (click)="deleteAttribute(attribute.id)" *ngIf="productVariant.product.user.id==currentUserId">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Khi không có attributes -->
+  <ng-template #noAttributes>
+    <p>No attributes found for this variant.</p>
+  </ng-template>
+
+  <!-- Hiển thị thuộc tính đã chọn -->
+  <div *ngIf="selectedAttribute&&currentUserId==productVariant.product.user.id">
+    <p>Selected Attribute: <strong>{{ selectedAttribute.attName }}</strong></p>
+  </div>
+</div>

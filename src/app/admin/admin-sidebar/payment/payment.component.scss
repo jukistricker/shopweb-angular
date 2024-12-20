@@ -1,0 +1,57 @@
+.payment-container {
+  margin: 20px;
+  font-family: Arial, sans-serif;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  .error-message {
+    color: red;
+    margin-bottom: 20px;
+  }
+
+  .payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f4f4f4;
+      text-align: left;
+    }
+
+    td {
+      text-align: center;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  .payment-details {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+
+    p {
+      margin: 5px 0;
+    }
+  }
+}

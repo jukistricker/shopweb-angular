@@ -1,0 +1,161 @@
+<body>
+<div class="wall-container">
+  <!-- Header -->
+  <app-header></app-header>
+
+  <div class="user-info">
+    <!-- Display User Information -->
+    <div *ngIf="user">
+      <div *ngIf="currentUser?.id===userIdFromRoute">
+        <h2>Hello, {{ user.fullname? user.fullname: "someone" }}</h2>
+      </div>
+
+      <div *ngIf="user.isEditing; else displayUserInfo">
+        <h3>Edit Profile</h3>
+
+        <!-- Form to edit user details -->
+        <form (ngSubmit)="updateUser()">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" [(ngModel)]="user.username" name="username" class="form-control" required />
+          </div>
+
+          <div class="form-group">
+            <label for="fullname">Full Name</label>
+            <input id="fullname" [(ngModel)]="user.fullname" name="fullname" class="form-control" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" [(ngModel)]="user.email" name="email" class="form-control" required />
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="button" class="btn btn-secondary" (click)="user.isEditing = false">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <ng-template #displayUserInfo>
+        <!-- Display user details -->
+        <div>
+          <p><strong>Full Name:</strong> {{ user.fullname }}</p>
+          <p><strong>Username:</strong> {{ user.username }}</p>
+        </div>
+        <div *ngIf="currentUser.id===userIdFromRoute">
+
+          <p><strong>Email:</strong> {{ user.email }}</p>
+          <p><strong>Role:</strong> {{ user.role }}</p>
+          <button class="btn btn-info text-light m-2" [routerLink]="'/order'">Your Orders</button>
+          <button class="btn btn-warning" (click)="editUser(user)">Edit Profile</button>
+          <button *ngIf="user?.role && user.role.includes('user')"
+                  (click)="becomeSeller()"
+                  class="seller btn btn-primary">
+            Become a Seller
+          </button>
+          <button *ngIf="user?.role && user.role.includes('seller')"
+                  (click)="cancelSeller()"
+                  class="seller btn btn-danger">
+            Cancel Seller
+          </button>
+
+          <div *ngIf="currentUser?.role !== 'user'">
+            <button class="btn btn-success" (click)="toggleAddProductForm()">Add Product</button>
+          </div>
+
+          <!-- Add Product Form -->
+          <div *ngIf="isAddProductFormVisible" class="add-product-form">
+            <h3>Add New Product</h3>
+            <form (ngSubmit)="createProduct()">
+              <!-- Product Name -->
+              <div class="form-group">
+                <label for="productName">Product Name:</label>
+                <input type="text" id="productName" [(ngModel)]="newProduct.productName" name="productName" class="form-control" required />
+              </div>
+
+              <!-- Category -->
+              <div class="form-group">
+                <label for="category">Category:</label>
+                <select id="category" [(ngModel)]="newProduct.category.id" name="category" class="form-control" required>
+                  <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.cate_name }}</option>
+                </select>
+              </div>
+
+              <!-- Description -->
+              <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" [(ngModel)]="newProduct.description" name="description" class="form-control" required></textarea>
+              </div>
+
+              <!-- Price -->
+              <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" [(ngModel)]="newProduct.price" name="price" class="form-control" required />
+              </div>
+
+              <!-- Quantity -->
+              <div class="form-group">
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" [(ngModel)]="newProduct.quantity" name="quantity" class="form-control" required />
+              </div>
+
+
+
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" (click)="cancelAddProduct()">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+
+        </div>
+
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="user-products container" *ngIf="user?.role!='user'">
+    <div *ngIf="products && products.length > 0" class="product-list">
+      <h2 class="p-2">User's Products</h2>
+      <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12" *ngFor="let product of products">
+          <a [routerLink]="['/product', product.id]" class="text-decoration-none">
+            <div class="product-item card shadow-sm mb-4">
+              <img
+                [ngSrc]="'htt://cdn.shopify.com/s/files/1/0559/3713/8775/files/Durable_Chews.jpg?v=1725681866&width=512'"
+                alt="Product Image" width="100" height="100"
+                class="product-image"
+              />
+              <div class="card-body">
+                <h5 class="product-name card-title text-truncate">{{ product.productName }}</h5>
+                <div class="product-price card-text">
+                  <h4>
+                    <p *ngIf="product.sale">
+                      <span class="text-danger"><b>{{product.salePrice | currency}}</b> </span>
+                      <del>{{ product.price | currency }}</del>
+                    </p>
+                    <span *ngIf="!product.sale">{{ product.price | currency }}</span>
+                  </h4>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="product-rating">
+                    <i class="fas fa-star">{{product.rating}}</i>
+                  </div>
+                </div>
+                <p>{{product.purchaseCount}} sold</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+  <app-footer></app-footer>
+</div>
+
+</body>

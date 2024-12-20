@@ -1,0 +1,32 @@
+<div class="product-variant-container">
+  <router-outlet></router-outlet>
+
+
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+  <div class="add-variant">
+    <button *ngIf=" currentUserId== product.user.id&&productVariants.length<1" (click)="addVariant()">Add New Variant</button>
+  </div>
+
+  <div *ngIf="productVariants.length > 0; else noVariants">
+    <ul>
+      <li *ngFor="let variant of productVariants; let i = index">
+        <app-variant-attribute
+          [productVariant]="variant"
+          (attributeSelected)="onAttributeSelected($event)">
+        </app-variant-attribute>
+
+
+        <button *ngIf="currentUserId == product.user.id" (click)="deleteVariant(variant.id)">Delete</button>
+      </li>
+    </ul>
+  </div>
+
+
+
+
+  <!-- Khi không có biến thể -->
+  <ng-template #noVariants>
+    <p></p>
+  </ng-template>
+</div>

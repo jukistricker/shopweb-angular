@@ -1,0 +1,80 @@
+.variant-attribute-container {
+  margin: 1rem;
+
+  .error {
+    color: red;
+    font-weight: bold;
+  }
+
+  .add-attribute {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    input {
+      flex: 1;
+      padding: 0.5rem;
+      margin-right: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  .attributes-list {
+    display: flex; /* Sử dụng flexbox */
+    flex-wrap: wrap; /* Cho phép xuống dòng nếu không đủ không gian */
+    gap: 10px; /* Khoảng cách giữa các item */
+  }
+
+  .attribute-item {
+    display: flex;
+    flex-direction: column; /* Sắp xếp nội dung theo chiều dọc */
+    align-items: center; /* Canh giữa nội dung */
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+  }
+
+  .attribute-item:hover {
+    background-color: #e0f7fa;
+  }
+
+  .attribute-item.selected {
+    background-color: #b2ebf2;
+    border-color: #00796b;
+    color: #004d40;
+  }
+
+  button {
+    margin-top: 5px;
+    background-color: #00b683;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #004d40;
+  }
+
+}

@@ -1,0 +1,77 @@
+<div class="container order-page">
+  <!-- Header -->
+  <app-header></app-header>
+  <button class="btn btn-primary" (click)="createOrder()">Create New Order</button>
+
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading" class="loading">
+    <p>Loading orders...</p>
+  </div>
+
+  <!-- Error or no orders -->
+  <div *ngIf="!isLoading && (!orders || orders.length === 0)" class="no-orders">
+    <p>No orders found.</p>
+  </div>
+
+  <!-- Orders list -->
+  <div *ngIf="orders && orders.length > 0" class="orders-list">
+    <h2>Your Orders</h2>
+    <div *ngFor="let order of orders, let i = index" class="order-card">
+      <h4>Order #{{ order.id }}</h4>
+
+      <!-- Editable fields for orders -->
+      <div class="mb-3">
+        <label for="name-{{order.id}}" class="form-label">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name-{{order.id}}"
+          [(ngModel)]="order.name"
+          name="name-{{order.id}}"
+          placeholder="Enter name"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="phone-{{order.id}}" class="form-label">Phone</label>
+        <input
+          type="text"
+          class="form-control"
+          id="phone-{{order.id}}"
+          [(ngModel)]="order.phone"
+          name="phone-{{order.id}}"
+          placeholder="Enter phone number"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="address-{{order.id}}" class="form-label">Address</label>
+        <textarea
+          class="form-control"
+          id="address-{{order.id}}"
+          [(ngModel)]="order.address"
+          name="address-{{order.id}}"
+          rows="3"
+          placeholder="Enter address"
+        ></textarea>
+      </div>
+
+      <div class="order-actions">
+
+        <!-- Update Button (saves changes) -->
+        <button class="btn btn-warning" *ngIf="!isEditing" (click)="updateOrder(order.id, order)">Update</button>
+
+        <!-- Delete Button -->
+        <button class="btn btn-danger" *ngIf="!isEditing" (click)="deleteOrder(order.id)">Delete</button>
+
+        <button class="btn-outline-primary" *ngIf="isEditing" (click)="saveOrder(i)">Save</button>
+        <button class="btn-outline-danger" *ngIf="isEditing" (click)="cancelEdit()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Footer -->
+  <app-footer></app-footer>
+</div>

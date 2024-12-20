@@ -19,8 +19,9 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
 
+
   getUserById(id: number): Observable<UserDTO> {
-    return this.http.get<UserDTO>(`${this.apiUrl}/getById/${id}`, { headers: this.headers });
+    return this.http.get<UserDTO>(`${this.apiUrl}/getById/${id}`);
   }
 
 

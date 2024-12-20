@@ -1,92 +1,221 @@
-<app-header></app-header>
+<app-header xmlns="http://www.w3.org/1999/html"></app-header>
+<router-outlet></router-outlet>
 <div class="container">
-    <div class="intro-section">
-        <h1>Đây là trang chi tiết sản phẩm</h1>
+
+
+  <div class="row">
+    <!-- Product Images Section -->
+    <div class="col-md-6">
+      <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+        <img
+              [ngSrc]="'https://cdn.shopify.com/s/files/1/0559/3713/8775/files/Durable_Chews.jpg?v=1725681866&width=512'"
+              alt="Product Image" width="100" height="100"
+              class="product-image"
+        />
+      </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
+
+    <!-- Product Details Section -->
+    <div class="col-md-6">
+      <div class="product-details">
+
+        <div *ngIf="seller" class="seller-info d-flex align-items-center mb-3">
+          <i class="fa-solid fa-store me-2"></i> <!-- Icon với khoảng cách bên phải -->
+          <p class="mb-0 flex-grow-1"><b>{{ seller?.fullname ? seller?.fullname : seller?.username }}</b></p>
+          <button class="btn btn-outline-primary" [routerLink]="['/wall', seller.id]">
+
+              <i class="fa-solid fa-circle-info"></i> Info</button>
+        </div>
+
+
+
+        <h2><p class="product-name">{{product?.productName}}</p></h2>
+        <div class="product-rating">
+          <i class="fas fa-star" > {{product?.rating}}</i>
+        </div>
+        <div>
+          {{product?.purchaseCount}} sold
+        </div>
+        <h3><p class="product-price"><span class="text-primary fw-bold" *ngIf="!product?.sale" >Price: {{product?.price| currency}}</span></p></h3>
+        <div *ngIf="product?.sale" class="product-price">
+          <p class="sale-price">Price:
+
+          <span class="text-danger fw-bold ms-2">
+    {{ product?.salePrice | currency }}
+  </span>
+            <span class="text-muted text-decoration-line-through">
+    {{ product?.price | currency }}
+          </span></p>
+        </div>
+        <app-product-variant
+          *ngIf="product !== null && product !== undefined"
+          [product]="product"
+          (attributeSelected)="onAttributeSelected($event)">
+          <!-- Truyền dữ liệu từ productVariant xuống app-variant-attribute -->
+
+        </app-product-variant>
+
+
+
+        <div *ngIf="selectedAttribute!=null&&selectedAttribute!=undefined">
+          <p>Selected Attribute: {{ selectedAttribute.attName }}</p>
+        </div>
+
+
+        <!-- Product Quantity -->
+        <div class="product-quantity mt-3 d-flex align-items-center">
+          <label for="quantity" class="form-label me-2 mb-0">Quantity:</label>
+          <div class="input-group">
+            <button class="btn btn-outline-secondary px-3 py-1" type="button" (click)="decreaseQuantity()">-</button>
+            <input
+              type="number"
+              id="quantity"
+              class="form-control text-center px-2 no-spinner"
+              [(ngModel)]="quantity"
+              min="1">
+            <button class="btn btn-outline-secondary px-3 py-1" type="button" (click)="increaseQuantity()">+</button>
+          </div>
+        </div>
+        <!-- Product Actions -->
+        <div class="product-actions row mt-4" *ngIf="seller.id!=currentUserId">
+          <button  class="btn btn-primary me-2" (click)="addProductToCart()">Add to Cart</button>
+          <button  class="btn btn-dark" (click)="buynow()">Buy Now</button>
+        </div>
+
+        <div *ngIf="showPurchaseForm" class="purchase-form">
+          <h3>Confirm Purchase</h3>
+
+          <!-- Hiển thị thông tin sản phẩm -->
+          <p>Product: {{ product?.productName }}</p>
+          <p>Price: {{ product?.price | currency }}</p>
+          <p>Quantity: {{ quantity }}</p>
+          <p>Total Price: {{ quantity * (product?.price || 0) | currency }}</p>
+
+          <label for="order">Select Order:</label>
+          <select id="order" [(ngModel)]="newPurchase.order" required>
+            <option *ngFor="let order of orders" [ngValue]="order">
+              {{ order.name }}
+            </option>
+          </select>
+
+          <!-- Phương thức thanh toán -->
+          <label for="payment">Select Payment Method:</label>
+          <select id="payment" [(ngModel)]="newPurchase.payment" required>
+            <option *ngFor="let payment of payments" [ngValue]="payment">
+              {{ payment.payName }}
+            </option>
+          </select>
+
+          <!-- Nút hành động -->
+          <button class="btn btn-outline-success" (click)="createPurchase()">Submit</button>
+          <button class="btn btn-outline-primary" (click)="cancelPurchase()">Cancel</button>
+        </div>
+
+
+        <div class="product-description">
+          <h4>Product Description:</h4>
+          {{product?.description}}
+        </div>
+
+        <div *ngIf="feedbacks.length > 0">
+          <h3>Customer Feedbacks</h3>
+          <ul>
+            <li *ngFor="let feedback of feedbacks" class="feedback-item">
+              <p><strong>{{ feedback.user.username }}</strong> </p>
+              <p>(Rating: {{ feedback.rate }} / 5)</p>
+              <p>{{ feedback.feedback }}</p>
+              <hr />
+            </li>
+          </ul>
 
         </div>
-        <div class="col-md-6">
-            <div class="carousel slide" id="carouselExample" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="square-image">
-                            <img src="https://www.google.com/imgres?q=arnh&imgurl=https%3A%2F%2Fwww.mabensa.com%2Fcdn%2Fshop%2Ffiles%2FARNH-34mmlong32mmDIA5.85gr.png%3Fv%3D1704230695%26width%3D1445&imgrefurl=https%3A%2F%2Fwww.mabensa.com%2Fproducts%2Farnh-3&docid=53EepSenVd2KrM&tbnid=j0RxMnlRw6RFgM&vet=12ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA..i&w=1445&h=1363&hcb=2&ved=2ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA"
-                                alt="Product Image" class="product-image">
-                        </div>
-                    </div>
-                    <div class="carousel-item ">
-                        <div class="square-image">
-                            <img src="https://www.google.com/imgres?q=arnh&imgurl=https%3A%2F%2Fwww.mabensa.com%2Fcdn%2Fshop%2Ffiles%2FARNH-34mmlong32mmDIA5.85gr.png%3Fv%3D1704230695%26width%3D1445&imgrefurl=https%3A%2F%2Fwww.mabensa.com%2Fproducts%2Farnh-3&docid=53EepSenVd2KrM&tbnid=j0RxMnlRw6RFgM&vet=12ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA..i&w=1445&h=1363&hcb=2&ved=2ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA"
-                                alt="Product Image" class="product-image">
-                        </div>
-                    </div>
-                    <div class="carousel-item active">
-                        <div class="square-image">
-                            <img src="https://www.google.com/imgres?q=arnh&imgurl=https%3A%2F%2Fwww.mabensa.com%2Fcdn%2Fshop%2Ffiles%2FARNH-34mmlong32mmDIA5.85gr.png%3Fv%3D1704230695%26width%3D1445&imgrefurl=https%3A%2F%2Fwww.mabensa.com%2Fproducts%2Farnh-3&docid=53EepSenVd2KrM&tbnid=j0RxMnlRw6RFgM&vet=12ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA..i&w=1445&h=1363&hcb=2&ved=2ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA"
-                                alt="Product Image" class="product-image">
-                        </div>
-                    </div>
-                    <div class="carousel-item active">
-                        <div class="square-image">
-                            <img src="https://www.google.com/imgres?q=arnh&imgurl=https%3A%2F%2Fwww.mabensa.com%2Fcdn%2Fshop%2Ffiles%2FARNH-34mmlong32mmDIA5.85gr.png%3Fv%3D1704230695%26width%3D1445&imgrefurl=https%3A%2F%2Fwww.mabensa.com%2Fproducts%2Farnh-3&docid=53EepSenVd2KrM&tbnid=j0RxMnlRw6RFgM&vet=12ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA..i&w=1445&h=1363&hcb=2&ved=2ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA"
-                                alt="Product Image" class="product-image">
-                        </div>
-                    </div>
-                </div>
-                
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
+      </div>
 
-            <div class="row">
-                <div class="thumnail-container">
-                    <div class="thumnail-item active">
-                        <img src="https://www.google.com/imgres?q=arnh&imgurl=https%3A%2F%2Fwww.mabensa.com%2Fcdn%2Fshop%2Ffiles%2FARNH-34mmlong32mmDIA5.85gr.png%3Fv%3D1704230695%26width%3D1445&imgrefurl=https%3A%2F%2Fwww.mabensa.com%2Fproducts%2Farnh-3&docid=53EepSenVd2KrM&tbnid=j0RxMnlRw6RFgM&vet=12ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA..i&w=1445&h=1363&hcb=2&ved=2ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA"
-                            alt="Thumnail Image" class="thumnail-image">
-                    </div>
-                    <div class="thumnail-item">
-                        <img src="https://www.google.com/imgres?q=arnh&imgurl=https%3A%2F%2Fwww.mabensa.com%2Fcdn%2Fshop%2Ffiles%2FARNH-34mmlong32mmDIA5.85gr.png%3Fv%3D1704230695%26width%3D1445&imgrefurl=https%3A%2F%2Fwww.mabensa.com%2Fproducts%2Farnh-3&docid=53EepSenVd2KrM&tbnid=j0RxMnlRw6RFgM&vet=12ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA..i&w=1445&h=1363&hcb=2&ved=2ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA"
-                            alt="Thumnail Image" class="thumnail-image">
-                    </div>
-                    <div class="thumnail-item active">
-                        <img src="https://www.google.com/imgres?q=arnh&imgurl=https%3A%2F%2Fwww.mabensa.com%2Fcdn%2Fshop%2Ffiles%2FARNH-34mmlong32mmDIA5.85gr.png%3Fv%3D1704230695%26width%3D1445&imgrefurl=https%3A%2F%2Fwww.mabensa.com%2Fproducts%2Farnh-3&docid=53EepSenVd2KrM&tbnid=j0RxMnlRw6RFgM&vet=12ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA..i&w=1445&h=1363&hcb=2&ved=2ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA"
-                            alt="Thumnail Image" class="thumnail-image">
-                    </div>
-                    <div class="thumnail-item active">
-                        <img src="https://www.google.com/imgres?q=arnh&imgurl=https%3A%2F%2Fwww.mabensa.com%2Fcdn%2Fshop%2Ffiles%2FARNH-34mmlong32mmDIA5.85gr.png%3Fv%3D1704230695%26width%3D1445&imgrefurl=https%3A%2F%2Fwww.mabensa.com%2Fproducts%2Farnh-3&docid=53EepSenVd2KrM&tbnid=j0RxMnlRw6RFgM&vet=12ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA..i&w=1445&h=1363&hcb=2&ved=2ahUKEwicvoG2vN6JAxUPQ_UHHQlHEPgQM3oECBkQAA"
-                            alt="Thumnail Image" class="thumnail-image">
-                    </div>
-                </div>
+      <div class="update-product-form" *ngIf="currentUserId&&product&&seller.id==currentUserId">
+        <h3>Update Product</h3>
+        <form (ngSubmit)="updateProduct()">
+          <!-- Tên sản phẩm -->
+          <div class="form-group">
+            <label for="productName">Product Name: </label>
+            <input type="text" id="productName" [(ngModel)]="product.productName" name="productName" required />
+          </div>
+
+          <!-- Danh mục (Category) -->
+          <div class="form-group">
+            <label for="category">Category: </label>
+            <select id="category" [(ngModel)]="product.category.id" name="category" required>
+              <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.cate_name }}</option>
+            </select>
+          </div>
+
+          <!-- Mô tả sản phẩm -->
+          <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" [(ngModel)]="product.description" name="description" required></textarea>
+          </div>
+
+          <!-- Giá -->
+          <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" id="price" [(ngModel)]="product.price" name="price" required />
+          </div>
+
+          <!-- Số lượng -->
+          <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="product-quantity" [(ngModel)]="product.quantity" name="quantity" required />
+          </div>
+
+
+
+
+          <!-- Sale -->
+          <div class="form-group form-check">
+            <input
+              type="checkbox"
+              id="sale"
+              [(ngModel)]="product.sale"
+              name="sale"
+              (change)="toggleSale()"
+            />
+            <label for="sale">Is Sale? </label>
+          </div>
+
+          <!-- Sale Details -->
+          <div *ngIf="product.sale" class="sale-details">
+            <div class="form-group">
+              <label for="salePrice">Sale Price:</label>
+              <input
+                type="number"
+                id="salePrice"
+                [(ngModel)]="product.salePrice"
+                name="salePrice"
+                [disabled]="!product.sale"
+                required
+              />
             </div>
-            <div class="col-md-6">
-                <div class="product-details">
-                    <h2>Thông tin chi tiết sản phẩm</h2>
-                    <p>Mô tả sản phẩm</p>
-                    <p>Giá: 99,000đ</p>
-                    <div class="product-actions">
-                        <button class="btn btn-primary">Thêm vào giỏ hàng</button>
-                        <button class="btn btn-success">Mua ngay</button>
-                    </div>
-                    <div class="product-quantity">
-                        <div class="border-wrapper">
-                            <button>-</button>
-                            <input type="text" value="1">
-                            <button>+</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="form-group">
+              <label for="saleEndDate">Sale End Date:</label>
+              <input
+                type="date"
+                id="saleEndDate"
+                [(ngModel)]="product.saleEndDate"
+                name="saleEndDate"
+                [disabled]="!product.sale"
+                required
+              />
             </div>
-            
-        </div>
-        
+          </div>
+
+          <button type="submit" class="btn btn-primary mt-3">Update</button>
+        </form>
+      </div>
+
+
     </div>
+
+
+
+  </div>
 </div>
 <app-footer></app-footer>

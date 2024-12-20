@@ -1,0 +1,40 @@
+<div class="payment-container">
+  <h1>Payments</h1>
+
+  <!-- Hiển thị lỗi nếu có -->
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Danh sách thanh toán -->
+  <div *ngIf="payments.length > 0">
+    <table class="payment-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let payment of payments">
+        <td>{{ payment.id }}</td>
+        <td>{{ payment.payName }}</td>
+        <td>
+          <button (click)="loadPaymentDetails(payment.id)">Details</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="payments.length === 0">
+    <p>No payments available.</p>
+  </div>
+
+  <!-- Chi tiết thanh toán -->
+  <div *ngIf="selectedPayment" class="payment-details">
+    <h2>Payment Details</h2>
+    <p><strong>ID:</strong> {{ selectedPayment.id }}</p>
+    <p><strong>Name:</strong> {{ selectedPayment.payName }}</p>
+
+  </div>
+</div>

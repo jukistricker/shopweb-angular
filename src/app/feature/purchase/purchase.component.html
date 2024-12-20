@@ -1,0 +1,68 @@
+<app-header></app-header>
+
+<div class="purchase-list">
+  <h2>Your Purchases</h2>
+
+  <div *ngFor="let purchase of purchases" class="purchase">
+    <h3>Purchase #{{ purchase.id }}</h3>
+    <p>Paymen: {{ purchase.payment?.payName }}</p>
+    <p>Total: {{ purchase.totalPrice | currency }}</p>
+
+    <!-- Hiển thị purchase-items -->
+    <div *ngIf="purchaseItemsMap.has(purchase.id)">
+      <h4>Purchase Items:</h4>
+      <ul>
+        <li *ngFor="let purchaseItem of purchaseItemsMap.get(purchase.id)">
+          Product: {{ purchaseItem.product?.productName }} |
+          Quantity: {{ purchaseItem.quantity }} |
+          Price: {{ purchaseItem.product.price | currency }}
+          <button class="btn btn-warning" *ngIf="purchaseItem.rated==false"
+                  (click)="showRatingForm(purchaseItem)">Rate</button>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="isRatingFormVisible" class="rating-form">
+      <h3>Rate Product</h3>
+      <form #ratingForm="ngForm" (ngSubmit)="submitRating()">
+        <p>
+          Product: {{ selectedPurchaseItem?.product?.productName }}
+        </p>
+
+        <!-- Stars for rating -->
+        <div class="stars">
+          <span>Rate:</span>
+          <i
+            *ngFor="let star of stars; let index = index"
+            class="star"
+            [ngClass]="{ 'filled': index < rating.rate }"
+            (click)="setRating(index + 1)"
+          >
+            ★
+          </i>
+        </div>
+
+        <label for="pFeedback">Feedback:</label>
+        <textarea
+          id="pFeedback"
+          name="pFeedback"
+          [(ngModel)]="rating.pFeedback"
+          required
+        ></textarea>
+
+        <button type="submit" [disabled]="rating.rate === 0 || ratingForm.invalid">Submit</button>
+        <button type="button" (click)="cancelRating()">Cancel</button>
+      </form>
+    </div>
+
+
+
+    <div *ngIf="!purchaseItemsMap.has(purchase.id)">
+      <p>Loading items...</p>
+    </div>
+  </div>
+
+
+
+</div>
+
+<app-footer></app-footer>

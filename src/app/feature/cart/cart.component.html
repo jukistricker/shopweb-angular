@@ -1,0 +1,54 @@
+<app-header></app-header>
+
+<router-outlet></router-outlet>
+<div class="cart-container">
+  <h2>Giỏ hàng của bạn</h2>
+
+  <!-- Danh sách cart-items -->
+  <div *ngFor="let item of cartItems" class="cart-item">
+    <!-- Checkbox để chọn sản phẩm -->
+    <input
+      type="checkbox"
+      (change)="toggleCartItemSelection(item)"
+      [checked]="selectedCartItems.includes(item)"
+    />
+    <span>Product: {{ item.product.productName }} | Quantity: {{ item.quantity }} | Attribute: {{ item.variantAttribute?.attName }} | $ {{item.product.price}}</span>
+
+    <button (click)="deleteCartItem(item.id)">Delete</button>
+  </div>
+
+  <!-- Tổng giá trị -->
+  <div class="total-price">
+    <h3>Tổng giá trị: {{ calculateTotalPrice() | currency }}</h3>
+  </div>
+
+  <!-- Nút Đặt hàng -->
+  <button (click)="togglePurchaseForm()">Đặt hàng</button>
+
+  <!-- Hiển thị form mua hàng nếu nút Đặt hàng được nhấn -->
+  <div *ngIf="isPurchaseFormVisible&&purchase" class="purchase-form">
+    <h3>Thông tin mua hàng</h3>
+
+    <!-- Select order -->
+    <label for="order">Chọn đơn hàng:</label>
+    <select id="order" [(ngModel)]="purchase.order">
+      <option *ngFor="let order of availableOrders" [ngValue]="order">
+        {{ order.name }}
+      </option>
+    </select>
+
+    <!-- Select payment method -->
+    <label for="payment">Chọn phương thức thanh toán:</label>
+    <select id="payment" [(ngModel)]="purchase.payment">
+      <option *ngFor="let payment of paymentMethods" [ngValue]="payment">
+        {{ payment.payName }}
+      </option>
+    </select>
+
+    <!-- Nút xác nhận mua hàng -->
+    <button (click)="confirmPurchase()">Mua hàng</button>
+  </div>
+
+</div>
+
+<app-footer></app-footer>
